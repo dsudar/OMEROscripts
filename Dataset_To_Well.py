@@ -4,7 +4,7 @@
  components/tools/OmeroPy/scripts/omero/util_scripts/Dataset_To_Well.py
 
 -----------------------------------------------------------------------------
-  Copyright (C) 2006-2014 University of Dundee. All rights reserved.
+  Copyright (C) 2006-2016 University of Dundee. All rights reserved.
 
 
   This program is free software; you can redistribute it and/or modify
@@ -35,33 +35,42 @@ import omero.util.script_utils as script_utils
 import omero
 
 from omero.rtypes import rint, rlong, rstring, robject, unwrap
+from omero.model.enums import UnitsLength
 
+from random import random
 
-def addImageToWell(conn, image, well, removeFrom=None):
+def addImagesToWell(conn, images, plateId, row, col, removeFrom=None):
     """
-    Add the Image to a Plate, creating a new well at the specified column and
-    row
-    NB - This will fail if there is already a well at that point
+    Add Images to a New well, creating a new wellSample for each
     """
     updateService = conn.getUpdateService()
 
+    well = omero.model.WellI()
+    well.plate = omero.model.PlateI(plateId, False)
+    well.column = rint(col-1)
+    well.row = rint(row-1)
+
     try:
-        ws = omero.model.WellSampleI()
-        ws.image = omero.model.ImageI(image.id, False)
-        ws.well = well
-        well.addWellSample(ws)
-        updateService.saveObject(ws)
+        for image in images:
+            ws = omero.model.WellSampleI()
+            ws.image = omero.model.ImageI(image.id, False)
+            ws.well = well
+            # Optional, add position X and Y
+            ws.posX = omero.model.LengthI(random() * 100, UnitsLength.REFERENCEFRAME)
+            ws.posY = omero.model.LengthI(random() * 100, UnitsLength.REFERENCEFRAME)
+            well.addWellSample(ws)
+        updateService.saveObject(well)
     except:
         print "Failed to add image to well sample"
         return False
 
     # remove from Datast
     if removeFrom is not None:
-        links = list(image.getParentLinks(removeFrom.id))
-        print "     Removing image from Dataset: %s" \
-            % removeFrom.id
-        for l in links:
-            conn.deleteObjectDirect(l._obj)
+        for image in images:
+            for l in image.getParentLinks(removeFrom.id):
+                print "     Removing image from Dataset: %s" \
+                    % removeFrom.id
+                conn.deleteObjectDirect(l._obj)
     return True
 
 
@@ -74,8 +83,8 @@ def dataset_to_well(conn, scriptParams, datasetId, plateId):
 
     updateService = conn.getUpdateService()
 
-    row = scriptParams["Well_Column"]
-    col = scriptParams["Well_Row"]
+    col = scriptParams["Well_Column"]
+    row = scriptParams["Well_Row"]
 
     plate = conn.getObject("Plate", plateId)
     if plate is None:
@@ -101,14 +110,7 @@ def dataset_to_well(conn, scriptParams, datasetId, plateId):
     if removeDataset:
         removeFrom = dataset
 
-    well = omero.model.WellI()
-    well.plate = omero.model.PlateI(plate.getId(), False)
-    well.column = rint(col-1)
-    well.row = rint(row-1)
-    well = updateService.saveAndReturnObject(well)
-
-    for image in images:
-        addedCount = addImageToWell(conn, image, well, removeFrom)
+    addedCount = addImagesToWell(conn, images, plate.getId(), row, col, removeFrom)
 
     # if user wanted to delete dataset, AND it's empty we can delete dataset
     deleteDataset = False   # Turning this functionality off for now.
