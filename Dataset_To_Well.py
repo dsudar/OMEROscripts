@@ -217,7 +217,8 @@ def dataset_to_platewell(conn, scriptParams):
         message += "New plate created: %s." % newplate.getName().val
         robj = newplate
     else:
-         robj = None
+        message += "Images added to plate: $s." % plate.getName()
+        robj = plate._obj
          
     return robj, message
 
@@ -264,19 +265,19 @@ See http://help.openmicroscopy.org/scripts.html""",
             " (please specify for new Plate!!!)"""),
 
         scripts.String(
-            "Plate", grouping="5", optional=False,
+            "Plate", grouping="5", optional=False, default="Dataset_To_Well",
             description="Destination Plate. Enter Name of new"
             " plate or ID of existing plate"),
 
-	    scripts.Int(
-		    "Well_Row", grouping="5.1", default=1,
+        scripts.Int(
+            "Well_Row", grouping="5.1", optional=False, default=1,
             description="Put Images as Fields into specified Well Row", min=1),
 
-	    scripts.Int(
-            "Well_Column", grouping="5.2", default=1,
+        scripts.Int(
+            "Well_Column", grouping="5.2", optional=False, default=1,
             description="Put Images as Fields into specified Well Column", min=1),
 
-		scripts.Bool(
+        scripts.Bool(
             "Remove_From_Dataset", grouping="6", default=True,
             description="Remove Images from Dataset as they are added to"
             " Plate"),
