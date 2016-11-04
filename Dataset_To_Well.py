@@ -217,7 +217,7 @@ def dataset_to_platewell(conn, scriptParams):
         message += "New plate created: %s." % newplate.getName().val
         robj = newplate
     else:
-        message += "Images added to plate: $s." % plate.getName()
+        message += "Images added to plate: %s." % plate.getName()
         robj = plate._obj
          
     return robj, message
