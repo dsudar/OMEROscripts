@@ -274,19 +274,19 @@ See http://help.openmicroscopy.org/scripts.html""",
         scripts.String(
             "Column_Names", grouping="3", default='number',
             values=rowColNaming,
-            description="Name plate columns with 'number' or 'letter'",
+            description="Name plate columns with number or letter"
             " (only required for new Plate)"),
 
         scripts.String(
             "Row_Names", grouping="4", default='letter',
             values=rowColNaming,
-            description="Name plate rows with 'number' or 'letter'",
+            description="Name plate rows with number or letter"
             " (only required for new Plate)"),
 
         scripts.String(
             "Plate", grouping="5", optional=False, default="Dataset_To_Well",
             description="Destination Plate. Enter Name of new"
-            " plate or ID of existing plate"),
+            " Plate or ID of existing Plate"),
 
         scripts.Int(
             "Well_Row", grouping="5.1", optional=False, default=1,
