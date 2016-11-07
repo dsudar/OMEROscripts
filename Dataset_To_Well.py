@@ -76,6 +76,19 @@ def addImagesToWell(conn, images, plateId, row, col, removeFrom=None):
 
 def dataset_to_well(conn, scriptParams, datasetId, plateId):
 
+    ls_abc = [None,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    ls_00 = [
+        "00","01","02","03","04","05","06","07","08","09",
+        "10","11","12","13","14","15","16","17","18","19",
+        "20","21","22","23","24","25","26","27","28","29",
+        "30","31","32","33","34","35","36","37","38","39",
+        "40","41","42","43","44","45","46","47","48","49",
+        "50","51","52","53","54","55","56","57","58","59",
+        "60","61","62","63","64","65","66","67","68","69",
+        "70","71","72","73","74","75","76","77","78","79",
+        "80","81","82","83","84","85","86","87","88","89",
+        "90","91","92","93","94","95","96","97","98","99"]
+
     dataset = conn.getObject("Dataset", datasetId)
     if dataset is None:
         print "No dataset found for ID %s" % datasetId
@@ -83,8 +96,14 @@ def dataset_to_well(conn, scriptParams, datasetId, plateId):
 
     updateService = conn.getUpdateService()
 
-    col = scriptParams["Well_Column"]
     row = scriptParams["Well_Row"]
+    col = scriptParams["Well_Column"]
+
+    if "Well_Coordinate" in scriptParams:
+        coord = scriptParams["Well_Coordinate"]
+        row = ls_abc.index(coord[0])
+        col = ls_00.index(coord[1:])
+        print "Destination well coordinate: %s or (%d, %d)" % (coord, row, col)
 
     plate = conn.getObject("Plate", plateId)
     if plate is None:
@@ -277,6 +296,10 @@ See http://help.openmicroscopy.org/scripts.html""",
             "Well_Column", grouping="5.2", optional=False, default=1,
             description="Put Images as Fields into specified Well Column", min=1),
 
+        scripts.String(
+            "Well_Coordinate", grouping="5.3",
+            description="Put Images as Fields into specified Well Coordinate"),
+            
         scripts.Bool(
             "Remove_From_Dataset", grouping="6", default=True,
             description="Remove Images from Dataset as they are added to"
