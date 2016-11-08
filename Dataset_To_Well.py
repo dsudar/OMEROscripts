@@ -298,7 +298,7 @@ See http://help.openmicroscopy.org/scripts.html""",
 
         scripts.String(
             "Well_Coordinate", grouping="5.3",
-            description="Put Images as Fields into specified Well Coordinate"
+            description="Use Well Coordinate formatted 'A03' i.e. one letter, 2 numbers"
             " NOTE: this value will override Well_Row and Well_Column"),
             
         scripts.Bool(
