@@ -8,7 +8,7 @@ Dataset_To_Well.py: moves all images in a single Dataset to a single specified W
 Wells_To_Plate.py: generate (a) Plate(s) from all the Fields in (a) Well(s).
   Optionally, add the new Plate to a Screen. 
 
-HCS_Render_Settings: apply new rendering settings to all images in a list of Screens
+HCS_Render_Settings.py: apply new rendering settings to all images in a list of Screens
   or Plates in bulk and has the following options:<br />
   1) reset to imported (all others below are then ignored),<br />
   2) only change the assigned colors per channel (without changing the min/max),<br />
