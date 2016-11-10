@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
- omero/util_scripts/Well_To_Plate.py
+ omero/util_scripts/Wells_To_Plate.py
 
 -----------------------------------------------------------------------------
   Copyright (C) 2006-2016 University of Dundee. All rights reserved.
@@ -22,7 +22,8 @@
 
 ------------------------------------------------------------------------------
 
-This script generates a Plate from a Well of Images.
+This script generates a Plate from a Well of Images, i.e. it creates a grid
+layout of the multiple Fields. Multiple Well selection is supported.
 
 @author Damir Sudar
 <a href="mailto:dsudar@qimagingsys.com">dsudar@qimagingsys.com</a>
@@ -40,24 +41,19 @@ import omero
 
 from omero.rtypes import rint, rlong, rstring, robject, unwrap
 
-ls_abc = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-ls_00 = [
-        "01","02","03","04","05","06","07","08","09",
-        "10","11","12","13","14","15","16","17","18","19",
-        "20","21","22","23","24","25","26","27","28","29",
-        "30","31","32","33","34","35","36","37","38","39",
-        "40","41","42","43","44","45","46","47","48","49",
-        "50","51","52","53","54","55","56","57","58","59",
-        "60","61","62","63","64","65","66","67","68","69",
-        "70","71","72","73","74","75","76","77","78","79",
-        "80","81","82","83","84","85","86","87","88","89",
-        "90","91","92","93","94","95","96","97","98","99"]
+ls_abc = ["A","B","C","D","E","F","G","H","I","J","K","L","M",
+          "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+          "AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM",
+          "AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ",
+          "BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM",
+          "BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ"]
+
 
 
 def addImageToPlate(conn, image, plateId, column, row):
     """
-    Add the Image to a Plate, creating a new well at the specified column and
-    row
+    Add the Image to a Plate, creating a new well at the
+    specified column and row
     NB - This will fail if there is already a well at that point
     """
     updateService = conn.getUpdateService()
@@ -91,7 +87,7 @@ def well_fields_to_plate(conn, scriptParams, wellId, screen):
     updateService = conn.getUpdateService()
 
     # make plate name from well coordinate
-    plname = ls_abc[well.row] + ls_00[well.column]
+    plname = "%s%02d" % (ls_abc[well.row], well.column + 1)
 
     # create Plate
     plate = omero.model.PlateI()
@@ -203,7 +199,7 @@ def mwell_fields_to_plates(conn, scriptParams):
         if len(plates) == len(links):
             message += "."
         else:
-            message += " but could not be attached."
+            message += " but was not attached."
     else:
         message += "No plate created."
     return robj, message
@@ -220,7 +216,7 @@ def runAsScript():
     rowColNaming = [rstring('letter'), rstring('number')]
 
     client = scripts.client(
-        'WellFields_To_Plate.py',
+        'Wells_To_Plate.py',
         """Take all Fields in a Well and put them in a new Plate, \
 arranging them into rows or columns as specified.
 Optionally add the Plate to a new or existing Screen.
@@ -259,8 +255,8 @@ See http://help.openmicroscopy.org/scripts.html""",
 
         scripts.String(
             "Screen", grouping="6",
-            description="Option: put Plate(s) in a Screen. Enter Name of new"
-            " screen or ID of existing screen"""),
+            description="Option: put output Plate(s) in a Screen. Enter"
+            " Name of new screen or ID of existing screen"""),
 
         version="0.0.1",
         authors=["Damir Sudar"],
@@ -275,7 +271,7 @@ See http://help.openmicroscopy.org/scripts.html""",
         # wrap client to use the Blitz Gateway
         conn = BlitzGateway(client_obj=client)
 
-        # convert Dataset(s) to Plate(s). Returns new plates or screen
+        # convert Well(s) to Plate(s). Returns new plates and/or screen
         newObj, message = mwell_fields_to_plates(conn, scriptParams)
 
         client.setOutput("Message", rstring(message))
