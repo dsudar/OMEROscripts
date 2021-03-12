@@ -1,5 +1,5 @@
 ---
-name: Feature request
+name: New feature request
 about: Propose a new metadata category, element, or field
 title: ''
 labels: ''
