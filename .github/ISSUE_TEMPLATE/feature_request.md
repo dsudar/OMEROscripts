@@ -7,12 +7,10 @@ assignees: ''
 
 ---
 
-Report any new metadata categories, elements, or fields/values, you would like to have added to the model.
+Propose any new metadata categories, elements, or fields/values, you would like to have added to the model.
 
-**Category name:**
-
+**Category name (existing or new):**
 **Element name(s):**
-
 **Field name(s):**
 
 **Justification for the addition**
