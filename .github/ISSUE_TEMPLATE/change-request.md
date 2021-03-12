@@ -7,14 +7,15 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+Propose a change to existing metadata elements or fields/values, e.g. to identify a problem.
+Please complete the *form* below and enter an issue title above following the pattern: your_last_name -- summary statement
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+Element name(s): ___
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+Field name(s): ___
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+Justification for the addition (brief and compelling): 
+your input here
+
+Full description of the proposed addition (enough detail to implement): 
+your input here
