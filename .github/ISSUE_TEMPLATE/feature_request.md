@@ -8,15 +8,14 @@ assignees: ''
 ---
 
 Propose any new metadata categories, elements, or fields/values, you would like to have added to the model.
+Please use the "form" below and enter an issue name above following the pattern: <your_last_name> -- <summary statement>
 
-**Category name (existing or new):**
+**Category name (optional):** 
 
-**Element name(s):**
+**Element name(s):** 
 
-**Field name(s):**
+**Field name(s):** 
 
-**Justification for the addition**
-Please provide a brief and compelling justification.
+**Justification for the addition (brief and compelling):** 
 
-**Full description of the proposed addition**
-Please provide enough details for us to make the addition to the model.
+**Full description of the proposed addition (enough detail to implement):** 
