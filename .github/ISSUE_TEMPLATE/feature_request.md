@@ -21,3 +21,8 @@ your input here
 
 **Full description of the proposed addition (enough detail to implement):** 
 your input here
+
+**List**
+- [ ] Check 1
+- [ ] Check 2
+- [ ] Check 3
