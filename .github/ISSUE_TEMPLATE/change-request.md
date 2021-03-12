@@ -1,6 +1,6 @@
 ---
 name: Change request
-about: Propose a change to an existing element or filed/value
+about: Propose a change to an existing element or field
 title: ''
 labels: ''
 assignees: ''
@@ -8,11 +8,13 @@ assignees: ''
 ---
 
 Propose a change to existing metadata elements or fields/values, e.g. to identify a problem.
-Please complete the *form* below and enter an issue title above following the pattern: your_last_name -- summary statement
+Please complete the *form* below and enter an issue title above following the pattern:
+your_last_name -- summary statement 
+E.g.: Strambio -- Camera/ConversionFactor and Camera/ReadNoise should depend on CameraMode
 
-Element name(s): ___
+Element name(s): __
 
-Field name(s): ___
+Field name(s): __
 
 Justification for the addition (brief and compelling): 
 your input here

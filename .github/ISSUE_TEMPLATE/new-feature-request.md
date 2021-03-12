@@ -1,14 +1,16 @@
 ---
 name: New feature request
 about: Propose a new metadata category, element, or field
-title: ''
+title: Last_Name -- Summary statement
 labels: ''
 assignees: ''
 
 ---
 
 Propose any new metadata categories, elements, or fields/values, you would like to have added to the model.
-Please complete the *form* below and enter an issue title above following the pattern: your_last_name -- summary statement
+Please complete the *form* below and enter an issue title above following the pattern:
+your_last_name -- summary statement
+E.g.: Sudar -- Add coffee to Objective->ImmersionType
 
 Category name (optional): ___
 
